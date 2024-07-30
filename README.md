@@ -1,9 +1,9 @@
 READ ME 
 
 --- Interface ---
-Block size:
-Memory Size:
-Cache Size:
+Block size: Size of words in a block
+Memory Size: Size of the Main Memory in blocks (Must be larger than the cache)
+Cache Size: Size of cache in blocks
 
 Output
 
