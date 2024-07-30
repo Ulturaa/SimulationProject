@@ -1,0 +1,40 @@
+body {
+    background-color: rgb(3, 114, 3);
+}
+#Input-Container {
+    display: inline-block;
+    width: 20%;
+    height: 100%;
+    padding: 10px 15px;
+    background-color: white;
+    border-radius: 15px 15px 0px 0px;
+}
+#Simulation-Container {
+    display: inline-block;
+    width: 75%;
+    height: 100%;
+    padding: 0px 15px;
+}
+input {
+    width: 80%;
+    margin-bottom: 10px;
+    display: block;
+}
+#error {
+    margin: 0px;
+    margin-top: 10px;
+    color: red;
+    font-style: italic;
+    font-size: 13px;
+    text-align: center;
+}
+#submit {
+    margin-top: 8px;
+    width: 100%;
+}
+p {
+    margin: 0;
+    font-style: italic;
+    font-size: 11px;
+    color: rgb(167, 165, 165);
+}
