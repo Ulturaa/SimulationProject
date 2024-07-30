@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Memory Access Simulation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: rgb(3, 114, 3);
+        }
+        #Input-Container {
+            display: inline-block;
+            width: 20%;
+            height: 100%;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 15px 15px 0px 0px;
+        }
+        #Simulation-Container {
+            display: inline-block;
+            width: 75%;
+            height: 100%;
+            padding: 0px 15px;
+        }
+        input {
+            width: 80%;
+            margin-bottom: 10px;
+            display: block;
+        }
+        #error {
+            margin: 0px;
+            margin-top: 10px;
+            color: red;
+            font-style: italic;
+            font-size: 13px;
+            text-align: center;
+        }
+        #submit {
+            margin-top: 8px;
+            width: 100%;
+        }
+        p {
+            margin: 0;
+            font-style: italic;
+            font-size: 11px;
+            color: rgb(167, 165, 165);
+        }
+    </style>
+</head>
+<body>
+    <div id="Input-Container">
+        Block Size <input id="block-input" type="number">
+        Memory Size <input id="memory-input" type="number">
+        Cache Size <input id="cache-input" type="number">
+        Memory Block Sequence:
+        <input id="sequence-input" type="text">
+        Memory Access Time: 10ns
+        Cache Access Time: 1ns
+        <p hidden id="error">Must Fill Out All Fields</p>
+        <button id="submit">Submit</button>
+        <hr>
+        Results: 
+        <p id="hit">Hit:</p>
+        <p id="miss">Miss:</p>
+        <p id="miss-penalty">Miss Penalty:</p>
+        <p id="amat">Average Memory Access Time:</p>
+        <p id="tmat">Total Memory Access Time:</p>
+        <p id="snapshot">Snapshot:</p>
+    </div>
+    <div id="Simulation-Container">
+        This is a simulation
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#submit").click(function(){
+                let mat = 10;
+                let cat = 1;  
+
+                let block_size = parseInt($("#block-input").val());
+                let memory_size = parseInt($("#memory-input").val());
+                let cache_size = parseInt($("#cache-input").val());
+                let sequence = $("#sequence-input").val();
+
+                if (!block_size || !memory_size || !cache_size || !sequence) {
+                    $("#error").show();
+                } else {
+                    $("#error").hide();
+
+                    let sequence_array = sequence.split(',').map(function(item) {
+                        return parseInt(item.trim());
+                    }).filter(function(item) {
+                        return !isNaN(item);
+                    });
+
+                    let hits = 0;
+                    let misses = 0;
+                    let cache = new Array(block_size).fill(null);
+                    //console.log(cache.length);
+                    
+                    for (let i = 0; i < sequence_array.length; i++) {
+                        let block = sequence_array[i];
+                        //console.log(block);
+                        let cache_block = block % cache_size;
+                        //console.log(cache_block);
+                        if(cache[cache_block] === block){
+                            hits++;
+                            cache[cache_block] = block;
+                        } else {
+                            misses++;
+                            cache[cache_block] = block;
+                        }
+                    }
+                            
+                    
+                    let miss_penalty = (2 * cat) + (block_size * mat);
+                    let amat = (hits/sequence_array.length) * cat + (misses/sequence_array.length) * miss_penalty;
+                    let tmat = (hits * block_size * cat) + (misses * block_size * (mat + cat)) + (misses * cat);
+
+                    $("#hit").text(`Hit: ${hits}`);
+                    $("#miss").text(`Miss: ${misses}`);
+                    $("#miss-penalty").text(`Miss Penalty: ${miss_penalty} ns`);
+                    $("#amat").text(`Average Memory Access Time: ${amat.toFixed(2)} ns`);
+                    $("#tmat").text(`Total Memory Access Time: ${tmat} ns`);
+                    $("#snapshot").text(`Snapshot: ${cache}`);
+
+                    $("#block-input").val("");
+                    $("#memory-input").val("");
+                    $("#cache-input").val("");
+                    $("#sequence-input").val("");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
