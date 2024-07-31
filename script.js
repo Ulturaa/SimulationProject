@@ -2,6 +2,25 @@ $(document).ready(function () {
     function isPowerOfTwo(n) {
         return n > 0 && (n & (n - 1)) === 0;
     }
+    function saveToFile(content, filename) {
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
+    }
+
+    function getTimestamp() {
+        const now = new Date();
+        return now.toISOString();
+    }
+
     $("#submit").click(function(){
         let mat = 10;
         let cat = 1;  
@@ -58,5 +77,17 @@ $(document).ready(function () {
             $("#cache-input").val("");
             $("#sequence-input").val("");
         }
+    });
+    $("#save").click(function() {
+        let results = `
+        Timestamp: ${getTimestamp()}
+        Hit: ${$("#hit").text().split(': ')[1]}
+        Miss: ${$("#miss").text().split(': ')[1]}
+        Miss Penalty: ${$("#miss-penalty").text().split(': ')[1]}
+        Average Memory Access Time: ${$("#amat").text().split(': ')[1]}
+        Total Memory Access Time: ${$("#tmat").text().split(': ')[1]}
+        Snapshot: ${$("#snapshot").text().split(': ')[1]}
+        ------------------------`;
+        saveToFile(results, 'cache_simulation_results.txt');
     });
 });

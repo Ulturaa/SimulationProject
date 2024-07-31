@@ -28,7 +28,7 @@ input {
     font-size: 13px;
     text-align: center;
 }
-#submit {
+#submit, #save {
     margin-top: 8px;
     width: 100%;
 }
