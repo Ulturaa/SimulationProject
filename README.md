@@ -26,7 +26,7 @@ Snapshot: The cache after executing the sequence
 1. Input the block size. Block size is the number of words per block  
 2. Input the memory size. This is the size for the main memory.  
 3. Input the cache size. This is the size of the cache memory.  
-4. Input the sequence. The sequence of memory blocks to be accessed.  
+4. Input the sequence. The sequence of memory blocks to be accessed. The sequence must be separated by commas.  
    - All fields must be filled before clicking submit.  
 6. After all fields are filled click submit.  
 7. The results will be displayed below.  
