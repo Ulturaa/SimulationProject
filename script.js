@@ -63,7 +63,7 @@ $(document).ready(function () {
             
             let miss_penalty = (2 * cat) + (block_size * mat);
             let amat = (hits/sequence_array.length) * cat + (misses/sequence_array.length) * miss_penalty;
-            let tmat = (hits * block_size * cat) + (misses * block_size * (mat + cat)) + (misses * cat);
+            let tmat = (hits * block_size * cat) + (misses * block_size * (mat + cat)) + (misses * block_size * cat);
 
             $("#hit").text(`Hit: ${hits}`);
             $("#miss").text(`Miss: ${misses}`);
